@@ -22,8 +22,9 @@ namespace RestApiDemo.Domain
         [Required]
         public string LastName { get; set; } = "";
 
-        public string ProfileImage { get; set; }
         public DateTime? BirthDate { get; set; }
+        
+        public string ProfileImage { get; set; }
 
         [InjectLambda]
         public string FullName => FirstName + " " + LastName;

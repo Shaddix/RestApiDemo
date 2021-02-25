@@ -15,15 +15,20 @@ namespace RestApiDemo.WebApi.PatchRequests
                 .AddControllers()
                 .AddNewtonsoftJson(
                     setupAction => SetupJson(setupAction.SerializerSettings));
-            
+
             services
                 .AddControllers()
                 .AddNewtonsoftJson(
                     setupAction =>
                     {
-                        setupAction.SerializerSettings.ContractResolver = new PatchRequestContractResolver
+                        var settings = setupAction.SerializerSettings;
+                        settings.Converters = new List<JsonConverter>
                         {
+                            new StringEnumConverter(),
+                            new DefaultDateTimeConverter(),
                         };
+                        // otherwise date is automatically converted, which will prevent us from handling TimezoneIndependentDate
+                        settings.DateParseHandling = DateParseHandling.DateTimeOffset;
                     });
         }
 
